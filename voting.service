@@ -1,0 +1,10 @@
+[Unit]
+Description=Launch the Voting Flask server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/voting_monolith/.venv/bin/gunicorn --chdir /voting_monolith --bind 0.0.0.0:80 "app:launch_app()"
+
+[Install]
+WantedBy=multi-user.target
