@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yes/No Voting</title>
+    <script>
+        const server = 'http://localhost';
+        async function sendVote(vote) {
+            try {
+                const response = await fetch(server + '/vote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ vote: vote })
+                });
+
+                if (response.ok) {
+                    updateResults();
+                } else {
+                    alert('Failed to register vote');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while registering vote');
+            }
+        }
+
+        async function updateResults() {
+            try {
+                const response = await fetch(server + '/results');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('results').innerText = `Yes: ${data.yes} No: ${data.no}`;
+                } else {
+                    alert('Failed to fetch results');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while fetching results');
+            }
+        }
+
+        window.onload = updateResults;
+    </script>
+</head>
+<body>
+    <h1>Please vote</h1>
+    <button onclick="sendVote('yes')">YES</button>
+    <button onclick="sendVote('no')">NO</button>
+    
+    <h2>Current Results:</h2>
+    <div id="results">Fetching results...</div>
+</body>
+</html>
+
