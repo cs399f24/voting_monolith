@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yes/No Voting</title>
     <script>
-        const server = 'http://localhost';
         async function sendVote(vote) {
             try {
-                const response = await fetch(server + '/vote', {
+                const response = await fetch('/vote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -29,7 +28,7 @@
 
         async function updateResults() {
             try {
-                const response = await fetch(server + '/results');
+                const response = await fetch('/results');
                 if (response.ok) {
                     const data = await response.json();
                     document.getElementById('results').innerText = `Yes: ${data.yes} No: ${data.no}`;
