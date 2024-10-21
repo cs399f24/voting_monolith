@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Yes/No Voting
+  description: |-
+    An API to support a simple voting
+  contact:
+    email: colemanb@moravian.edu
+  version: 0.0.1
+tags:
+  - name: vote
+    description: Register a vote
+  - name: results
+    description: Get results of the vote
+paths:
+  /vote:
+    post:
+      tags:
+        - vote
+      requestBody:
+        description: register a vote
+        content:
+          application/json:
+            schema:
+              required:
+                - vote
+              type: object
+              properties:
+                vote:
+                  type: string
+                  example: yes
+        required: true
+      responses:
+        '200':
+          description: Successful vote
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accepted:
+                    type: boolean
+        '405':
+          description: Invalid message body
+  /results:
+    get:
+      tags:
+        - results
+      summary: Get the results
+      description: Get the number of votes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  yes:
+                    type: integer
+                  no:
+                    type: integer
